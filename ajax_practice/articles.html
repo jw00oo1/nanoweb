@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-217809034-1"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../colors.js"></script>
+    <script>
+      function fetchPage(name){
+        fetch(name).then(function(response){
+          response.text().then(function(text){
+            document.querySelector('article').innerHTML = text;
+          })
+        });
+      }
+
+      if(location.hash){
+        fetchPage(location.hash.substr(2));
+      } else{
+        fetchPage('welcome');
+      }
+      fetch('list').then(function(response){
+        response.text().then(function(text){
+          var items = text.split(',');
+          var i = 0;
+          var tags = '';
+          while(i < items.length){
+            var item = items[i];
+            item = item.trim();
+            var tag = '<li><a href="#!'+item+'" onclick="fetchPage(\''+item+'\')">'+item+'</a></li>';
+            tags = tags + tag;
+            i = i + 1;
+          }
+          document.querySelector('#nav').innerHTML = tags;
+        })
+      });
+    </script>
+    <title>WEB</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../style.css">
+  </head>
+
+  <body>
+    <h1 class="subject">WEB</h1>
+
+    <div id="grid">
+      <div class="list">
+        <ol id="nav">
+
+        </ol>
+
+        <input id="night_day" type="button" value="night mode" onclick="
+          nightDayhandler(this);">
+      </div>
+
+      <div class="article">
+        <article>
+
+        </article>
+      </div>
+    </div>
+  </body>
+</html>
